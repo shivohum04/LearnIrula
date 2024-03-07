@@ -7,9 +7,10 @@ const SpeechCheck = () => {
   const [words, setWords] = useState([]);
   const [currentRecording, setCurrentRecording] = useState(null);
   const [recordings, setRecordings] = useState({});
+  // Simulated accuracy for demonstration
+  const [accuracy, setAccuracy] = useState({}); 
 
   useEffect(() => {
-    // Fetch words - This is a simplified version. Replace with actual API call as in Glossary
     axios.get("https://learnirula.azurewebsites.net/api/")
       .then(response => {
         setWords(response.data);
@@ -53,6 +54,8 @@ const SpeechCheck = () => {
     console.log('Recording stopped and stored at', uri);
     setRecordings({ ...recordings, [currentRecording.wordId]: uri });
     setCurrentRecording(null);
+    // Simulate accuracy calculation
+    setAccuracy({ ...accuracy, [currentRecording.wordId]: "Accuracy: " + Math.floor(Math.random() * 100) + "%" });
   };
 
   const playRecording = async (wordId) => {
@@ -70,22 +73,14 @@ const SpeechCheck = () => {
 
   const retryRecording = (wordId) => {
     setRecordings({ ...recordings, [wordId]: null });
+    // Reset accuracy for retried word
+    setAccuracy({ ...accuracy, [wordId]: undefined });
   };
 
   const renderItem = ({ item }) => (
     <View style={styles.wordContainer}>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          marginBottom: 8,
-        }}
-      >
-        <Text style={styles.wordEn}>
-          {item.enWord}
-        </Text>
-        <Text style={styles.wordTn}>{item.irulaWord}</Text>
-      </View>
+      <Text style={styles.wordEn}>{item.enWord}</Text>
+      <Text style={styles.wordTn}>{item.irulaWord}</Text>
       <TouchableOpacity onPress={() => handleAudioPress(item.audioPath)} style={styles.button}>
         <Text style={styles.buttonText}>Play Audio</Text>
       </TouchableOpacity>
@@ -97,10 +92,11 @@ const SpeechCheck = () => {
           <TouchableOpacity onPress={() => retryRecording(item._id)} style={styles.button}>
             <Text style={styles.buttonText}>Retry</Text>
           </TouchableOpacity>
-          {/* Placeholder for Submit, functionality to be added later */}
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
+          {/* Display accuracy if available */}
+          {accuracy[item._id] && <Text style={styles.accuracy}>{accuracy[item._id]}</Text>}
         </>
       ) : (
         <>
@@ -130,13 +126,10 @@ const SpeechCheck = () => {
 const styles = StyleSheet.create({
   wordContainer: {
     padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
+    margin: 10,
     backgroundColor: "white",
-    marginRight: 35,
-    marginLeft: 20,
-    marginVertical: 20,
-    borderRadius: 10,
+    borderRadius: 8,
+    elevation: 3,
   },
   wordEn: {
     fontSize: 18,
@@ -157,6 +150,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     textAlign: 'center',
+  },
+  accuracy: {
+    marginTop: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'green',
   },
 });
 
