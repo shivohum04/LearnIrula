@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "LearnIrula",
+    "slug": "IRULA",
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#284387",
+      "duration": 5000
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "versionCode": 7,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#284387"
+      },
+      "package": "com.kevinjinu.LearnIrula"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7e9e78cc-a62b-4b0d-a1c5-1a605e10ca59"
+      }
+    }
+  }
+}
