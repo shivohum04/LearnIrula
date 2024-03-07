@@ -1,10 +1,10 @@
-import "react-native-gesture-handler";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import Home from "../Home";
 import Glossary from "../Glossary";
 import AboutScreen from "../About";
+import SpeechCheck from "../Speech"; // Make sure this path matches your file structure
 
 const Tab = createBottomTabNavigator();
 
@@ -64,6 +64,18 @@ function BottomTabs() {
             <Ionicons name="ios-information-circle" color={color} size={size} />
           ),
           tabBarLabel: "About",
+          headerTitleAlign: "center",
+        }}
+      />
+      {/* New section for speech comparison */}
+      <Tab.Screen
+        name="CheckSpeech"
+        component={SpeechCheck}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="ios-mic" color={color} size={size} />
+          ),
+          tabBarLabel: "Check Speech",
           headerTitleAlign: "center",
         }}
       />
